@@ -4,6 +4,7 @@
 #include "server.h"
 #include <QRegularExpression>
 #include <QDebug>
+#include <QRegularExpression>
 
 PacketMS::PacketMS(QStringList &contents) :
     AOPacket(contents)
