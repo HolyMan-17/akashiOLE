@@ -1,0 +1,76 @@
+- area: Palace's Tea Parlour
+  background: AJCourt
+  bglock: true
+  evidence_mod: Mods
+  locking_allowed: false
+  iniswap_allowed: true
+  shouts_allowed: false
+  showname_changes_allowed: true
+- area: User Hub
+  background: DGSEnglishCourt
+  abbreviation: UHUB
+  bglock: true
+  evidence_mod: Mods
+  locking_allowed: false
+  iniswap_allowed: true
+  shouts_allowed: false
+  showname_changes_allowed: true
+  is_hub: true
+  hubtype: user
+- area: Gamer Hub 1
+  background: DGSEnglishCourt
+  bglock: false
+  evidence_mod: Mods
+  locking_allowed: true
+  iniswap_allowed: true
+  showname_changes_allowed: true
+  is_hub: true
+  hub_id: 1
+- area: Courtroom 1
+  background: AACourt
+  bglock: false
+  evidence_mod: HiddenCM
+  locking_allowed: true
+  iniswap_allowed: true
+  shouts_allowed: true
+  showname_changes_allowed: true
+- area: Courtroom 2
+  background: AJCourt
+  bglock: false
+  evidence_mod: HiddenCM
+  locking_allowed: true
+  iniswap_allowed: true
+  shouts_allowed: true
+  showname_changes_allowed: true
+- area: Courtroom 3
+  background: AJCourt
+  bglock: false
+  evidence_mod: HiddenCM
+  locking_allowed: true
+  iniswap_allowed: true
+  shouts_allowed: true
+  showname_changes_allowed: true
+- area: Courtroom 4
+  background: DDCourt
+  bglock: false
+  evidence_mod: HiddenCM
+  locking_allowed: true
+  iniswap_allowed: true
+  shouts_allowed: true
+  showname_changes_allowed: true
+- area: Courtroom 5
+  background: DGSEnglishCourt
+  bglock: false
+  evidence_mod: HiddenCM
+  locking_allowed: true
+  iniswap_allowed: true
+  shouts_allowed: true
+  showname_changes_allowed: true
+- area: Ministry of Justice
+  background: DGS2BarokOffice
+  bglock: false
+  evidence_mod: Mods
+  locking_allowed: true
+  iniswap_allowed: true
+  shouts_allowed: true
+  showname_changes_allowed: true
