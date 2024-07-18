@@ -72,7 +72,6 @@ Thumbs.db
 
 build/
 bin/akashi
-bin/config/
 bin_tests/unittest_*
 bin/logs/
 bin/core.lib
