@@ -158,6 +158,13 @@ class ConfigManager
     static QString serverName();
 
     /**
+     * @brief Returns the short "tag" version of the server.
+     *
+     * @return See short description.
+     */
+    static QString serverTag();
+
+    /**
      * @brief Returns the server's Message of the Day.
      *
      * @return See short description.
@@ -305,23 +312,6 @@ class ConfigManager
     static QString discordBanWebhookUrl();
 
     /**
-     * @brief Returns if the Webhook sends an alive message.
-     */
-    static bool discordUptimeEnabled();
-
-    /**
-     * @brief Returns the time between posting.
-     */
-    static int discordUptimeTime();
-
-    /**
-     * @brief Returns the Discord Uptime Webhook URL.
-     *
-     * @return See short description.
-     */
-    static QString discordUptimeWebhookUrl();
-
-    /**
      * @brief Returns a user configurable color code for the embeed object.s
      *
      * @return See short description.
@@ -422,6 +412,13 @@ class ConfigManager
     static QStringList gimpList();
 
     /**
+     * @brief Returns the server regex filter list
+     *
+     * @return See short description.
+     */
+    static QStringList filterList();
+
+    /**
      * @brief Returns the server approved domain list.
      *
      * @return See short description.
@@ -449,11 +446,6 @@ class ConfigManager
      * @return
      */
     static bool advertiseWSProxy();
-
-    /**
-     * @brief Returns the uptime of the server in miliseconds.
-     */
-    static qint64 uptime();
 
     /**
      * @brief A struct that contains the help information for a command.
@@ -519,6 +511,7 @@ class ConfigManager
         QStringList praises;     //!< Contains command praises, found in config/text/praises.txt
         QStringList reprimands;  //!< Contains command reprimands, found in config/text/reprimands.txt
         QStringList gimps;       //!< Contains phrases for /gimp, found in config/text/gimp.txt
+        QStringList filters;     //!< Contains filter regex, found in config/text/filter.txt
         QStringList cdns;        // !< Contains domains for custom song validation, found in config/text/cdns.txt
     };
 
@@ -551,11 +544,6 @@ class ConfigManager
      * @brief Stores all adjustable logstrings.
      */
     static QSettings *m_ambience;
-
-    /**
-     * @brief Pointer to QElapsedTimer to track the uptime of the server.
-     */
-    static QElapsedTimer *m_uptimeTimer;
 
     /**
      * @brief Contains the musiclist with time durations.
