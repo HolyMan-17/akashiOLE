@@ -32,6 +32,7 @@ const QMap<QString, AOClient::CommandInfo> AOClient::COMMANDS{
     {"changeauth", {{ACLRole::SUPER}, 0, &AOClient::cmdChangeAuth}},
     {"rootpass", {{ACLRole::SUPER}, 1, &AOClient::cmdSetRootPass}},
     {"background", {{ACLRole::NONE}, 1, &AOClient::cmdSetBackground}},
+    {"side", {{ACLRole::NONE}, 0, &AOClient::cmdSetSide}},
     {"lock_background", {{ACLRole::BGLOCK}, 0, &AOClient::cmdBgLock}},
     {"unlock_background", {{ACLRole::BGLOCK}, 0, &AOClient::cmdBgUnlock}},
     {"adduser", {{ACLRole::MODIFY_USERS}, 2, &AOClient::cmdAddUser}},
@@ -239,7 +240,7 @@ void AOClient::changeArea(int new_area)
     sendEvidenceList(server->getAreaById(new_area));
     sendPacket("HP", {"1", QString::number(server->getAreaById(new_area)->defHP())});
     sendPacket("HP", {"2", QString::number(server->getAreaById(new_area)->proHP())});
-    sendPacket("BN", {server->getAreaById(new_area)->background()});
+    sendPacket("BN", {server->getAreaById(new_area)->background(), server->getAreaById(new_area)->side()});
     if (l_character_taken) {
         sendPacket("DONE");
     }
@@ -433,18 +434,18 @@ void AOClient::calculateIpid()
 
 void AOClient::sendServerMessage(QString message)
 {
-    sendPacket("CT", {ConfigManager::serverName(), message, "1"});
+    sendPacket("CT", {ConfigManager::serverTag(), message, "1"});
 }
 
 void AOClient::sendServerMessageArea(QString message)
 {
-    server->broadcast(PacketFactory::createPacket("CT", {ConfigManager::serverName(), message, "1"}),
+    server->broadcast(PacketFactory::createPacket("CT", {ConfigManager::serverTag(), message, "1"}),
                       areaId());
 }
 
 void AOClient::sendServerBroadcast(QString message)
 {
-    server->broadcast(PacketFactory::createPacket("CT", {ConfigManager::serverName(), message, "1"}));
+    server->broadcast(PacketFactory::createPacket("CT", {ConfigManager::serverTag(), message, "1"}));
 }
 
 bool AOClient::checkPermission(ACLRole::Permission f_permission) const

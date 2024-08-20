@@ -298,7 +298,7 @@ void AOClient::cmdSetBackground(int argc, QStringList argv)
     if (m_authenticated || !area->bgLocked()) {
         if (server->getBackgrounds().contains(f_background, Qt::CaseInsensitive) || area->ignoreBgList() == true) {
             area->setBackground(f_background);
-            server->broadcast(PacketFactory::createPacket("BN", {f_background}), areaId());
+            server->broadcast(PacketFactory::createPacket("BN", {f_background, area->side()}), areaId());
             QString ambience_name = ConfigManager::ambience()->value(f_background + "/ambience").toString();
             if (ambience_name != "") {
                 server->broadcast(PacketFactory::createPacket("MC", {ambience_name, "-1", characterName(), "1", "1"}), areaId());
@@ -317,6 +317,27 @@ void AOClient::cmdSetBackground(int argc, QStringList argv)
     }
 }
 
+void AOClient::cmdSetSide(int argc, QStringList argv)
+{
+    Q_UNUSED(argc);
+
+    AreaData *area = server->getAreaById(areaId());
+    if (area->bgLocked()) {
+        sendServerMessage("This area's background is locked.");
+        return;
+    }
+
+    QString side = argv.join(" ");
+    area->setSide(side);
+    server->broadcast(PacketFactory::createPacket("BN", {area->background(), side}), areaId());
+    if (side.isEmpty()) {
+        sendServerMessageArea(character() + " unlocked the background side");
+    }
+    else {
+        sendServerMessageArea(character() + " locked the background side to " + side);
+    }
+}
+
 void AOClient::cmdBgLock(int argc, QStringList argv)
 {
     Q_UNUSED(argc);
@@ -328,7 +349,7 @@ void AOClient::cmdBgLock(int argc, QStringList argv)
         l_area->toggleBgLock();
     };
 
-    server->broadcast(PacketFactory::createPacket("CT", {ConfigManager::serverName(), character() + " locked the background.", "1"}), areaId());
+    server->broadcast(PacketFactory::createPacket("CT", {ConfigManager::serverTag(), character() + " locked the background.", "1"}), areaId());
 }
 
 void AOClient::cmdBgUnlock(int argc, QStringList argv)
@@ -342,7 +363,7 @@ void AOClient::cmdBgUnlock(int argc, QStringList argv)
         l_area->toggleBgLock();
     };
 
-    server->broadcast(PacketFactory::createPacket("CT", {ConfigManager::serverName(), character() + " unlocked the background.", "1"}), areaId());
+    server->broadcast(PacketFactory::createPacket("CT", {ConfigManager::serverTag(), character() + " unlocked the background.", "1"}), areaId());
 }
 
 void AOClient::cmdStatus(int argc, QStringList argv)
@@ -354,7 +375,7 @@ void AOClient::cmdStatus(int argc, QStringList argv)
 
     if (l_area->changeStatus(l_arg)) {
         arup(ARUPType::STATUS, true);
-        server->broadcast(PacketFactory::createPacket("CT", {ConfigManager::serverName(), character() + " changed status to " + l_arg.toUpper(), "1"}), areaId());
+        server->broadcast(PacketFactory::createPacket("CT", {ConfigManager::serverTag(), character() + " changed status to " + l_arg.toUpper(), "1"}), areaId());
     }
     else {
         const QStringList keys = AreaData::map_statuses.keys();

@@ -2,7 +2,7 @@
 #include "config_manager.h"
 #include "packet/packet_factory.h"
 #include "server.h"
-#include <QRegularExpression>
+
 #include <QDebug>
 #include <QRegularExpression>
 
@@ -138,6 +138,13 @@ AOPacket *PacketMS::validateIcPacket(AOClient &client) const
         return l_invalid;
     }
 
+    if (!ConfigManager::filterList().isEmpty()) {
+        foreach (const QString &regex, ConfigManager::filterList()) {
+            QRegularExpression re(regex, QRegularExpression::CaseInsensitiveOption);
+            l_incoming_msg.replace(re, "❌");
+        }
+    }
+
     if (client.m_is_gimped) {
         QString l_gimp_message = ConfigManager::gimpList().at((client.genRand(1, ConfigManager::gimpList().size() - 1)));
         l_incoming_msg = l_gimp_message;
@@ -163,7 +170,12 @@ AOPacket *PacketMS::validateIcPacket(AOClient &client) const
 
     // side
     // this is validated clientside so w/e
-    l_args.append(l_incoming_args[5].toString());
+    QString side = area->side();
+    if (side.isEmpty()) {
+        side = l_incoming_args[5].toString();
+    }
+    l_args.append(side);
+
     if (client.m_pos != l_incoming_args[5].toString()) {
         client.m_pos = l_incoming_args[5].toString();
         client.m_pos.replace("../", "").replace("..\\", "");
